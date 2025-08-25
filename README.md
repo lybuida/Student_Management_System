@@ -94,8 +94,8 @@ pip install -r ../requirements.txt
 python init_db.py
 
 ### 4) Chạy ứng dụng
-python run.py
-Truy cập: http://127.0.0.1:5000/
+- python run.py
+- Truy cập: http://127.0.0.1:5000/
 
 👥 Thành viên nhóm
 2254052042 – Bùi Dạ Lý
