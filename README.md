@@ -96,7 +96,7 @@ python init_db.py
 - python run.py
 - Truy cập: http://127.0.0.1:5000/
 
-👥 Thành viên nhóm
+## 👥 Thành viên nhóm
 2254052042 – Bùi Dạ Lý
 
 2254050009 – Huỳnh Lệ Giang
@@ -105,6 +105,6 @@ python init_db.py
 
 ---
 
-📄 License
+## 📄 License
 Dự án chỉ sử dụng cho mục đích học tập và nghiên cứu. Không sử dụng cho mục đích thương mại.
 
