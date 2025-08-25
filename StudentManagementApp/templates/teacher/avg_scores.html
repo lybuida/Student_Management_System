@@ -1,0 +1,129 @@
+{% extends 'layout/base.html' %}
+
+{% block content %}
+<div class="container py-4">
+    <div class="card border-0 shadow-lg rounded-4">
+        <!-- Tiêu đề + nút xuất Excel -->
+        <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center rounded-top-4 px-4 py-3">
+            <h5 class="mb-0"><i class="fas fa-chart-bar me-2"></i>Xuất điểm trung bình</h5>
+            {% if selected_class and selected_year %}
+            <a href="{{ url_for('teacher.export_avg_scores', class_id=selected_class, year=selected_year, semester=selected_semester) }}"
+               class="btn btn-light btn-sm shadow-sm">
+                <i class="fas fa-file-export me-1"></i> Xuất Excel
+            </a>
+            {% endif %}
+        </div>
+
+        <!-- Form chọn lớp, năm học, học kỳ -->
+        <div class="card-body px-4 py-4">
+            <form method="GET" action="{{ url_for('teacher.view_avg_scores') }}" class="row g-3 align-items-end mb-4">
+                <div class="col-md-4">
+                    <label class="form-label fw-semibold">Lớp học</label>
+                    <select class="form-select shadow-sm" name="class_id" required>
+                        <option value="">-- Chọn lớp --</option>
+                        {% for c in classes %}
+                        <option value="{{ c.id }}" {% if selected_class== c.id %}selected{% endif %}>{{ c.name }}
+                        </option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label fw-semibold">Năm học</label>
+                    <select class="form-select shadow-sm" name="year" required>
+                        <option value="">-- Chọn năm học --</option>
+                        {% for y in years %}
+                        <option value="{{ y.id }}" {% if selected_year== y.id %}selected{% endif %}>{{ y.start_year
+                            }}–{{ y.end_year }}
+                        </option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label fw-semibold">Học kỳ</label>
+                    <select class="form-select shadow-sm" name="semester">
+                        <option value="">Cả năm</option>
+                        {% for s in semesters %}
+                        <option value="{{ s.id }}" {% if selected_semester== s.id %}selected{% endif %}>{{ s.name }}
+                        </option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-md-1 d-grid">
+                    <button type="submit" class="btn btn-success shadow-sm">
+                        <i class="fas fa-search me-1"></i> Tìm
+                    </button>
+                </div>
+            </form>
+
+            <!-- Bảng hiển thị điểm trung bình -->
+            {% if scores %}
+            <div class="table-responsive">
+                <table id="avgScoreTable" class="table table-bordered table-hover rounded overflow-hidden shadow-sm">
+                    <thead class="table-primary text-center align-middle">
+                    <tr>
+                        <th style="width: 60px;">STT</th>
+                        <th class="text-start">Họ và tên</th>
+                        {% if selected_semester %}
+                        <!-- Cột có thể sắp xếp: Điểm TB học kỳ -->
+                        <th class="sortable text-center" onclick="sortTableByColumn('avgScoreTable', 2)">Điểm TB học kỳ
+                            {{ selected_semester }}
+                        </th>
+                        {% else %}
+                        <!-- Các cột có thể sắp xếp: HK1, HK2, Cả năm -->
+                        <th class="sortable text-center" onclick="sortTableByColumn('avgScoreTable', 2)">Điểm TB HK1
+                        </th>
+                        <th class="sortable text-center" onclick="sortTableByColumn('avgScoreTable', 3)">Điểm TB HK2
+                        </th>
+                        <th class="sortable text-center" onclick="sortTableByColumn('avgScoreTable', 4)">TB Cả năm</th>
+                        {% endif %}
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for s in scores %}
+                    <tr>
+                        <td class="text-center">{{ loop.index }}</td>
+                        <td class="text-start">{{ s.name }}</td>
+                        {% if selected_semester %}
+                        <td class="text-center fw-semibold">{{ s.avg_score }}</td>
+                        {% else %}
+                        <td class="text-center">{{ s.avg_score_sem1 }}</td>
+                        <td class="text-center">{{ s.avg_score_sem2 }}</td>
+                        <td class="text-center fw-semibold text-primary">{{ s.avg_score_year }}</td>
+                        {% endif %}
+                    </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {% else %}
+            <!-- Hiển thị khi không có dữ liệu -->
+            <div class="alert alert-info text-center shadow-sm mt-4">
+                <i class="fas fa-info-circle me-2"></i> Chưa có dữ liệu để hiển thị.
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<!-- Script xử lý sắp xếp các cột điểm trung bình -->
+<script>
+    function sortTableByColumn(tableId, columnIndex) {
+        const table = document.getElementById(tableId);
+        const tbody = table.tBodies[0];
+        const rows = Array.from(tbody.querySelectorAll("tr"));
+
+        const isAsc = table.getAttribute("data-sort-dir") !== "asc";
+        table.setAttribute("data-sort-dir", isAsc ? "asc" : "desc");
+
+        rows.sort((a, b) => {
+            const aText = a.children[columnIndex].textContent.trim();
+            const bText = b.children[columnIndex].textContent.trim();
+            const aVal = parseFloat(aText) || 0;
+            const bVal = parseFloat(bText) || 0;
+            return isAsc ? aVal - bVal : bVal - aVal;
+        });
+
+        rows.forEach(row => tbody.appendChild(row));
+    }
+</script>
+{% endblock %}

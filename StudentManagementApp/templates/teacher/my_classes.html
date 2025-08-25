@@ -1,0 +1,44 @@
+{% extends 'layout/base.html' %}
+
+{% block content %}
+<div class="container py-4">
+  <div class="card shadow-sm border-0 rounded-4">
+    <div class="card-header bg-success text-white rounded-top-4 d-flex justify-content-between align-items-center">
+      <h5 class="mb-0">
+        <i class="fas fa-chalkboard-teacher me-2"></i>Danh sách lớp đang giảng dạy
+      </h5>
+      <span class="badge bg-light text-dark">
+        <i class="fas fa-user-tie me-1"></i> Giáo viên: {{ current_user.username }}
+      </span>
+    </div>
+
+    <div class="card-body p-4">
+      {% if classrooms %}
+        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+          {% for c in classrooms %}
+          <div class="col">
+            <div class="card h-100 border-0 shadow-sm transition">
+              <div class="card-body">
+                <h5 class="card-title text-primary"><i class="fas fa-school me-2"></i>{{ c.name }}</h5>
+                <p class="mb-2">
+                  <i class="fas fa-layer-group me-2 text-secondary"></i>Khối: <strong>{{ c.gradelevel.name.value }}</strong><br>
+                  <i class="fas fa-calendar-alt me-2 text-secondary"></i>Năm học: <strong>{{ c.academic_year.name }}</strong>
+                </p>
+                <a href="{{ url_for('teacher.view_class_detail', class_id=c.id) }}"
+                   class="btn btn-outline-success w-100 mt-2">
+                  <i class="fas fa-eye me-1"></i> Xem chi tiết
+                </a>
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+      {% else %}
+        <div class="alert alert-info text-center mt-4">
+          <i class="fas fa-info-circle me-2"></i>Bạn chưa được phân công giảng dạy lớp nào.
+        </div>
+      {% endif %}
+    </div>
+  </div>
+</div>
+{% endblock %}

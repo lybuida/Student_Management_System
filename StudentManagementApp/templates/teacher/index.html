@@ -1,0 +1,68 @@
+{% extends 'layout/base.html' %}
+{% block content %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+
+<div class="container py-5">
+    <div class="text-center mb-5">
+        <h2 class="fw-bold animate__animated animate__fadeInDown"> 👋 Xin chào, {{ current_user.name }}</h2>
+        <p class="text-muted animate__animated animate__fadeIn animate__delay-1s">
+            Môn phụ trách: <strong>{{ teacher.subject.name }}</strong>
+        </p>
+    </div>
+
+    <div class="row g-4 justify-content-center">
+        <!-- Danh sách lớp -->
+        <div class="col-12 col-md-4">
+            <div class="card h-100 shadow border-0 hover-shadow transition">
+                <div class="card-body text-center">
+                    <div class="mb-3 fs-2 text-primary">
+                        <i class="fas fa-chalkboard-teacher"></i>
+                    </div>
+                    <h5 class="card-title fw-bold">Danh sách lớp đang dạy</h5>
+                    <p class="text-muted">Xem nhanh các lớp bạn đang phụ trách</p>
+                    <a href="{{ url_for('teacher.view_classes') }}" class="btn btn-outline-primary mt-2">Xem ngay</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Nhập điểm -->
+        <div class="col-12 col-md-4">
+            <div class="card h-100 shadow border-0 hover-shadow transition">
+                <div class="card-body text-center">
+                    <div class="mb-3 fs-2 text-success">
+                        <i class="fas fa-pen-alt"></i>
+                    </div>
+                    <h5 class="card-title fw-bold">Nhập điểm học sinh</h5>
+                    <p class="text-muted">Ghi nhận và lưu trữ kết quả học tập</p>
+                    <a href="{{ url_for('teacher.select_for_grading') }}" class="btn btn-outline-success mt-2">Nhập điểm</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Xuất điểm -->
+        <div class="col-12 col-md-4">
+            <div class="card h-100 shadow border-0 hover-shadow transition">
+                <div class="card-body text-center">
+                    <div class="mb-3 fs-2 text-warning">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h5 class="card-title fw-bold">Xuất điểm trung bình</h5>
+                    <p class="text-muted">Tổng hợp kết quả và theo dõi tiến độ học tập</p>
+                    <a href="{{ url_for('teacher.view_avg_scores') }}" class="btn btn-outline-warning mt-2">Xem kết quả</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .hover-shadow:hover {
+        box-shadow: 0 0 15px rgba(0, 123, 255, 0.25);
+        transform: translateY(-4px);
+        transition: all 0.3s ease-in-out;
+    }
+    .transition {
+        transition: all 0.3s ease-in-out;
+    }
+</style>
+{% endblock %}

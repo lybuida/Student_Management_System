@@ -1,0 +1,151 @@
+{% extends 'layout/base.html' %}
+
+{% block title %}Thống kê báo cáo{% endblock %}
+
+{% block content %}
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.0/font/bootstrap-icons.css" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+
+<link rel="stylesheet" href="{{ url_for('static', filename='css/admin/statistics.css') }}">
+
+<div class="statistics-container">
+    <div class="statistics-header">
+        <h1 class="statistics-title">
+            <i class="fas fa-chart-pie"></i> BÁO CÁO THỐNG KÊ MÔN HỌC
+        </h1>
+    </div>
+
+    <div class="filter-section">
+        <div class="filter-grid">
+            <div class="filter-group">
+                <label for="id_subject" class="filter-label">
+                    <i class="fas fa-book-open me-2"></i>Môn học
+                </label>
+                <select id="id_subject" name="id_subject" class="filter-select">
+                    {% for s in subjects %}
+                    <option value="{{ s.id }}">{{ s.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="filter-group">
+                <label for="id_semester" class="filter-label">
+                    <i class="fas fa-calendar-alt me-2"></i>Học kỳ
+                </label>
+                <select id="id_semester" name="id_semester" class="filter-select">
+                    {% for s in semesters %}
+                    <option value="{{ s.id }}">{{ s.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="filter-group">
+                <label for="id_year" class="filter-label">
+                    <i class="fas fa-calendar me-2"></i>Năm học
+                </label>
+                <select id="id_year" name="id_year" class="filter-select">
+                    {% for y in academic_years %}
+                    <option value="{{ y.id }}">{{ y.start_year }}–{{ y.end_year }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="filter-group"
+                 style="grid-column: 2; display: flex; justify-content: center; margin-top: -10px;">
+                <button type="button" class="btn-statistics" style="width: 100%;" onclick="statisticsScore()">
+                    <i class="fas fa-chart-bar me-2"></i> XEM BÁO CÁO
+                </button>
+            </div>
+
+
+        </div>
+    </div>
+
+    <div class="result-container" id="result">
+        <div class="report-header">
+            <h2 class="report-title">
+                <i class="fas fa-file-alt"></i> KẾT QUẢ THỐNG KÊ
+            </h2>
+            <div class="report-meta">
+                <div class="meta-item">
+                    <i class="fas fa-book meta-icon"></i>
+                    <span id="subject">Môn học: <span class="text-muted"></span></span>
+                </div>
+                <div class="meta-item">
+                    <i class="fas fa-calendar meta-icon"></i>
+                    <span id="semester">Học kỳ: <span class="text-muted"></span></span>
+                </div>
+                <div class="meta-item">
+                    <i class="fas fa-university meta-icon"></i>
+                    <span id="schoolyear">Năm học: <span class="text-muted"></span></span>
+                </div>
+            </div>
+
+            <div class="report-actions">
+                <button class="export-btn" onclick="exportExcel()">
+                    <i class="fas fa-file-excel"></i> Xuất Excel
+                </button>
+            </div>
+        </div>
+
+        <div class="report-grid">
+            <div class="table-section">
+                <div class="table-container">
+                    <table class="data-table">
+                        <thead>
+                        <tr>
+                            <th>STT</th>
+                            <th>Lớp</th>
+                            <th>Sĩ số</th>
+                            <th>Đạt</th>
+                            <th>Tỷ lệ</th>
+                        </tr>
+                        </thead>
+                        <tbody id="table_result"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="chart-section">
+                <div class="chart-controls">
+                    <div class="filter-group" style="flex: 1">
+                        <label for="select_chart" class="filter-label">
+                            <i class="fas fa-chart-area me-2"></i> Loại biểu đồ
+                        </label>
+                        <select id="select_chart" class="filter-select">
+                            <option value="pie">Biểu đồ tròn</option>
+                            <option value="bar">Biểu đồ cột</option>
+                            <option value="doughnut">Biểu đồ vành khuyên</option>
+                            <option value="line">Biểu đồ đường</option>
+                        </select>
+                    </div>
+                    <div class="filter-group" style="align-self: flex-end">
+                        <button type="button" class="btn-statistics" onclick="drawChart()">
+                            <i class="fas fa-chart-line me-2"></i> VẼ BIỂU ĐỒ
+                        </button>
+                    </div>
+                </div>
+
+                <div class="chart-container">
+                    <canvas id="chart"></canvas>
+                    <div class="no-data" id="no-data">
+                        <i class="fas fa-chart-bar no-data-icon"></i>
+                        <p>Chọn tiêu chí và nhấn "Vẽ biểu đồ" để xem kết quả</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Thư viện -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.29/jspdf.plugin.autotable.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/exceljs/dist/exceljs.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+
+<script src="{{ url_for('static', filename='js/admin.js') }}"></script>
+
+{% endblock %}

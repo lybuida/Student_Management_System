@@ -1,0 +1,45 @@
+{% extends 'layout/base.html' %}
+
+{% block title %}Đăng nhập{% endblock %}
+
+{% block content %}
+<div class="container d-flex justify-content-center align-items-center mt-5">
+    <div class="card p-4 shadow-lg" style="max-width: 420px; width: 100%; border-radius: 15px; background-color: #f8f9fa;">
+        <h3 class="text-center text-primary mb-4">
+            <i class="fas fa-user-circle fa-2x me-2"></i>ĐĂNG NHẬP
+        </h3>
+
+        {% if err_msg %}
+        <div class="alert alert-danger text-center">
+            <i class="fas fa-exclamation-circle me-2"></i>{{ err_msg }}
+        </div>
+        {% endif %}
+
+        <form method="post" action="">
+            <div class="mb-3">
+                <label for="username" class="form-label fw-bold">Tên đăng nhập</label>
+                <div class="input-group">
+                    <span class="input-group-text bg-primary text-white"><i class="fas fa-user"></i></span>
+                    <input type="text" class="form-control" id="username" name="username"
+                           placeholder="Nhập tên đăng nhập" required>
+                </div>
+            </div>
+
+            <div class="mb-4">
+                <label for="pwd" class="form-label fw-bold">Mật khẩu</label>
+                <div class="input-group">
+                    <span class="input-group-text bg-primary text-white"><i class="fas fa-lock"></i></span>
+                    <input type="password" class="form-control" id="pwd" name="password"
+                           placeholder="Nhập mật khẩu" required>
+                </div>
+            </div>
+
+            <div class="d-grid mb-3">
+                <button type="submit" class="btn btn-primary btn-lg shadow-sm">
+                    <i class="fas fa-sign-in-alt me-2"></i>Đăng nhập
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

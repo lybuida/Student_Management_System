@@ -1,0 +1,70 @@
+{% extends 'layout/base.html' %}
+
+{% block content %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+
+<div class="container py-5">
+    <div class="text-center mb-5">
+        <h2 class="fw-bold animate__animated animate__fadeInDown">👋 Xin chào, {{ current_user.name }}</h2>
+        <p class="text-muted animate__animated animate__fadeIn animate__delay-1s">
+            Bạn đang truy cập với vai trò: <strong>Nhân viên</strong>
+        </p>
+    </div>
+
+    <div class="row g-4 justify-content-center">
+        <!-- Tiếp nhận học sinh -->
+        <div class="col-12 col-md-4">
+            <div class="card h-100 shadow border-0 hover-shadow transition">
+                <div class="card-body text-center">
+                    <div class="mb-3 fs-2 text-primary">
+                        <i class="fas fa-user-plus"></i>
+                    </div>
+                    <h5 class="card-title fw-bold">Tiếp nhận học sinh mới</h5>
+                    <p class="text-muted">Thêm thông tin học sinh vào hệ thống</p>
+                    <a href="{{ url_for('staff.AddStudent') }}" class="btn btn-outline-primary mt-2">Thêm học sinh</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Lập danh sách lớp -->
+        <div class="col-12 col-md-4">
+            <div class="card h-100 shadow border-0 hover-shadow transition">
+                <div class="card-body text-center">
+                    <div class="mb-3 fs-2 text-success">
+                        <i class="fas fa-list-alt"></i>
+                    </div>
+                    <h5 class="card-title fw-bold">Xem danh sách lớp</h5>
+                    <p class="text-muted">Xem danh sách lớp sau khi phân tự động học sinh vào các lớp</p>
+                    <a href="{{ url_for('staff.CreateClassList') }}" class="btn btn-outline-success mt-2">Xem danh sách lớp</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Điều chỉnh lớp -->
+        <div class="col-12 col-md-4">
+            <div class="card h-100 shadow border-0 hover-shadow transition">
+                <div class="card-body text-center">
+                    <div class="mb-3 fs-2 text-warning">
+                        <i class="fas fa-exchange-alt"></i>
+                    </div>
+                    <h5 class="card-title fw-bold">Điều chỉnh lớp học</h5>
+                    <p class="text-muted">Chuyển học sinh giữa các lớp</p>
+                    <a href="{{ url_for('staff.AdjustClass') }}" class="btn btn-outline-warning mt-2">Chuyển lớp</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .hover-shadow:hover {
+        box-shadow: 0 0 15px rgba(13, 110, 253, 0.2);
+        transform: translateY(-4px);
+        transition: all 0.3s ease-in-out;
+    }
+
+    .transition {
+        transition: all 0.3s ease-in-out;
+    }
+</style>
+{% endblock %}

@@ -1,0 +1,89 @@
+{% extends 'layout/base.html' %}
+
+{% block content %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/Staff/CreateClassList.css') }}">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<div class="container-fluid mt-3">
+    <div class="row mt-4">
+        <!-- Khối 10 -->
+        <div class="col-md-4">
+            <div class="card shadow-sm grade-1">
+                <div class="card-header">
+                    <h5 class="mb-0"><i class="fas fa-graduation-cap me-2"></i>Khối 10</h5>
+                </div>
+                <div class="card-body">
+                    <div class="class-grid">
+                        {% for c in classes if c.gradelevel.name.value == '10' %}
+                        <button class="btn class-button"
+                                id="btn-class-{{ c.id }}"
+                                onclick="handleClassButton({{ c.id }}, this)">
+                            {{ c.name }} ({{ c.current_student }})
+                        </button>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Khối 11 -->
+        <div class="col-md-4">
+            <div class="card shadow-sm grade-2">
+                <div class="card-header">
+                    <h5 class="mb-0"><i class="fas fa-graduation-cap me-2"></i>Khối 11</h5>
+                </div>
+                <div class="card-body">
+                    <div class="class-grid">
+                        {% for c in classes if c.gradelevel.name.value == '11' %}
+                        <button class="btn class-button"
+                                id="btn-class-{{ c.id }}"
+                                onclick="handleClassButton({{ c.id }}, this)">
+                            {{ c.name }} ({{ c.current_student }})
+                        </button>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Khối 12 -->
+        <div class="col-md-4">
+            <div class="card shadow-sm grade-3">
+                <div class="card-header">
+                    <h5 class="mb-0"><i class="fas fa-graduation-cap me-2"></i>Khối 12</h5>
+                </div>
+                <div class="card-body">
+                    <div class="class-grid">
+                        {% for c in classes if c.gradelevel.name.value == '12' %}
+                        <button class="btn class-button"
+                                id="btn-class-{{ c.id }}"
+                                onclick="handleClassButton({{ c.id }}, this)">
+                            {{ c.name }} ({{ c.current_student }})
+                        </button>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- In danh sách lớp -->
+<div class="mt-3 container text-center" style="display: none" id="print_class">    <div class="mb-3 mt-3 text-center fs-3"><i class="fas fa-list-ul me-2"></i>DANH SÁCH LỚP</div>
+    <div class="row container text-center">
+        <label class="form-label col-md-6" id="name_class"><i class="fas fa-school me-2"></i></label>
+        <label class="form-label col-md-6" id="quantity"><i class="fas fa-users me-2"></i></label>
+    </div>
+    <table class="table table-bordered table-sm" id="table_print_class">
+        <tr>
+            <th><i class="fas fa-hashtag me-1"></i>STT</th>
+            <th><i class="fas fa-user me-1"></i>Họ tên</th>
+            <th><i class="fas fa-venus-mars me-1"></i>Giới tính</th>
+            <th><i class="fas fa-calendar-day me-1"></i>Năm sinh</th>
+            <th><i class="fas fa-map-marker-alt me-1"></i>Địa chỉ</th>
+        </tr>
+    </table>
+</div>
+<div id="no_student"><i class="fas fa-exclamation-triangle me-2"></i>Không có học sinh trong lớp này</div>
+<script src="{{ url_for('static', filename='js/staff.js') }}"></script>
+{% endblock %}

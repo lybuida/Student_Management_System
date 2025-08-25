@@ -1,0 +1,110 @@
+{% extends 'layout/base.html' %}
+
+{% block title %}Thay đổi quy định{% endblock %}
+
+{% block content %}
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+
+<div class="rule-management-container">
+    <div class="rule-header">
+        <h1><i class="fas fa-cog"></i> QUẢN LÝ QUY ĐỊNH </h1>
+        <p class="subtitle">Cập nhật các thông số quy định của trường học</p>
+    </div>
+
+    <div class="rule-content">
+        <!-- Current Rules Section -->
+        <div class="current-rules-card">
+            <div class="card-header">
+                <i class="fas fa-info-circle"></i>
+                <h3>QUY ĐỊNH HIỆN TẠI</h3>
+            </div>
+            <div class="card-body">
+                <div class="rule-item">
+                    <div class="rule-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <div class="rule-info">
+                        <div class="rule-label">Sĩ số tối đa</div>
+                        <div class="rule-value" id="current-quantity">{{quantity}}</div>
+                    </div>
+                </div>
+
+                <div class="rule-item">
+                    <div class="rule-icon">
+                        <i class="fas fa-child"></i>
+                    </div>
+                    <div class="rule-info">
+                        <div class="rule-label">Tuổi nhỏ nhất</div>
+                        <div class="rule-value" id="current-min-age">{{min_age}}</div>
+                    </div>
+                </div>
+
+                <div class="rule-item">
+                    <div class="rule-icon">
+                        <i class="fas fa-user-graduate"></i>
+                    </div>
+                    <div class="rule-info">
+                        <div class="rule-label">Tuổi lớn nhất</div>
+                        <div class="rule-value" id="current-max-age">{{max_age}}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Update Form Section -->
+        <div class="update-form-card">
+            <div class="card-header">
+                <i class="fas fa-edit"></i>
+                <h3>CẬP NHẬT QUY ĐỊNH</h3>
+            </div>
+            <div class="card-body">
+                <form id="rule-form">
+                    <div class="form-group">
+                        <label for="quantity">
+                            <i class="fas fa-users"></i> Sĩ số tối đa của lớp
+                        </label>
+                        <div class="input-with-icon">
+                            <input type="number" id="quantity" name="quantity" value="{{quantity}}" min="1" required>
+                            <span class="input-suffix">học sinh</span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="min_age">
+                            <i class="fas fa-child"></i> Tuổi nhỏ nhất của học sinh
+                        </label>
+                        <div class="input-with-icon">
+                            <input type="number" id="min_age" name="min_age" value="{{min_age}}" min="1" required>
+                            <span class="input-suffix">tuổi</span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="max_age">
+                            <i class="fas fa-user-graduate"></i> Tuổi lớn nhất của học sinh
+                        </label>
+                        <div class="input-with-icon">
+                            <input type="number" id="max_age" name="max_age" value="{{max_age}}" min="1" required>
+                            <span class="input-suffix">tuổi</span>
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="button" class="btn-save" onclick="changeRule()">
+                            <i class="fas fa-save"></i> LƯU THAY ĐỔI
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Result Message -->
+    <div id="result" class="result-message"></div>
+</div>
+
+<link rel="stylesheet" href="{{ url_for('static', filename='css/admin/changerule.css') }}">
+<script src="{{ url_for('static', filename='js/admin.js') }}"></script>
+
+
+{% endblock %}
