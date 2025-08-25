@@ -103,8 +103,5 @@ python init_db.py
 
 2254052008 – Võ Thị Ngọc Chi
 
----
-
 ## 📄 License
 Dự án chỉ sử dụng cho mục đích học tập và nghiên cứu. Không sử dụng cho mục đích thương mại.
-
