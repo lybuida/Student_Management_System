@@ -17,7 +17,6 @@ Dự án phát triển trong khuôn khổ môn **Công nghệ phần mềm** t�
 - [Kiến trúc hệ thống](#-kiến-trúc-hệ-thống)
 - [Cấu trúc thư mục](#-cấu-trúc-thư-mục)
 - [Hướng dẫn cài đặt & chạy](#-hướng-dẫn-cài-đặt--chạy)
-- [Ảnh minh họa](#-ảnh-minh-họa)
 - [Thành viên nhóm](#-thành-viên-nhóm)
 - [License](#-license)
 
@@ -103,4 +102,9 @@ python init_db.py
 2254050009 – Huỳnh Lệ Giang
 
 2254052008 – Võ Thị Ngọc Chi
+
+---
+
+📄 License
+Dự án chỉ sử dụng cho mục đích học tập và nghiên cứu. Không sử dụng cho mục đích thương mại.
 
